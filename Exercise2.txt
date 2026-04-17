@@ -46,3 +46,47 @@ Now , back to the Exercise(a) , by Lemma 1 and Lemma 2 we immediately get that :
     (f(n) +g(n))^k is belong to O(h^k(n)) . Q.E.D
 
 
+
+
+
+
+(b)
+proof:
+    we have the hypothesis : f is belong to O(n) , that is :
+        exist N1 in nature number , c > 0 , 
+        such that for all n >= N1 , we have f(n) <= c*n . 
+
+now we denote g(n) := SUM(i from 1 to n)f^2(i) , our aim is to prove that g is belong to O(n^3).
+
+now , since f is monotonically non-decreasing function , 
+so  g(1) <= g(n) , g(2) <= g(n) ,..., g(n-1) <= g(n)
+so g(n) <= n*f^2(n) .
+
+now it is enough to proof that n*f^2(n) is belong to O(n^3)
+
+take N := N1 , c := c^2
+
+by hypothesis , we have for all n >= N = N1 , f(n) <= c*n implies f^2(n) <= (c^2)*(n^2) impies n*f^2(n) <= n*(c^2)*(n^2) = c^2(n^3) = c*(n^3)
+
+Therefore , we proved that n*f^2(n) is belong to O(n^3). implies that g(n) is belong to O(n^3) Q.E.D
+
+
+
+
+
+(c)
+proof:
+    Hypothesis: f is belong to O(g^2) and f is also belong to O(h^2)
+    that is :
+        1. exist N1 in nature number , c1 > 0,
+        such that for all n >= N1 , we have f(n) <= c1*g^2(n)
+
+        2.exist N2 in nature number , c2 > 0,
+        such that for all n >= N2 , we have f(n) <= c2*h^2(n)
+
+
+Now take N:= max{N1 , N2} , c := square root of (c1*c2)
+
+by hypothesis for all n >= N , we have f(n)*f(n) <= (c1*g^2(n))*(c2*h^2(n))
+now take the square root both side , we get that f(n) <= (square root of (c1*c2))*(g(n)*h((n)))
+That is f is belong to O(g*h) Q.E.D
