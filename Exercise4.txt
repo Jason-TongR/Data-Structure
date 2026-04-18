@@ -1,0 +1,139 @@
+Exercise 4:
+
+
+(a)
+
+
+//the Definition of Node is:
+
+===================================================================
+
+public class Node<Integer>{
+    Integer element;
+    Node<Integer> prev;
+    Node<Integer> next;
+}
+
+===================================================================
+
+
+
+//our Algorithm is :
+
+=========================================================================================================================================
+
+private int compute_size_of_tree(Node<Integer> root){
+    Stack<Node<Integer>> stack = new Stack<>();
+    stack.push(root);
+    int res = 0;
+    while (stack.size() > 0) {
+        Node<Integer> subtree = stack.pop();
+        if (subtree != null) {
+            res ++;
+            stack.push(subtree.prev);
+            stack.push(subtree.next);
+        }
+    }
+    return res;   
+}
+
+
+public ArrayList<Integer> output_sorted_array_of_two_trees(Node<Integer> root1 , Node<Integer> root2){
+
+    assert root1 != null && root2 != null : "tree can't be empty";
+    
+    ArrayList<Integer> result_array = new ArrayList<>();
+    
+    Node<Integer> smaller = new Node<>();
+    Node<Integer> bigger = new Node<>();
+    
+    if( compute_size_of_tree(root1) >= compute_size_of_tree(root2) ){
+        smaller = root2;
+        bigger = root1;
+    }
+    else{
+        smaller = root1;
+        bigger = root2;
+    }
+    
+    Stack<Node<Integer>> stack = new Stack<>();
+    stack.push(smaller);
+    int res = 0;
+    while(stack.size() > 0){
+        Node<Integer> subtree = stack.pop();
+        if(subtree != null){
+            if( subtree.value.search_in_tree(bigger) ){ 
+                result_array.add(subtree.value);
+            }
+        }
+    }
+    
+    return Collection.sort(result_array);
+}
+
+
+
+in my code , we have private method 1 :  "compute_size_of_tree" , in the lecture ,we have seen that the time complexity of it is O(n) in the worst case.
+                             
+                             method 2 :  "output_sorted_array_of_two_trees"  , in this method , we determine the smaller tree of two trees
+                                         and for each element in the smller one , we search it wheter it is in the other bigger one,
+                                         if is, then add it to our result array. since the while loop is the same structure of the method 1 ,
+                                         and in the lecture we learn that in AVL trees , the seach method is O(logn) in the worst case
+                                         therefore , in our Algorithm , the worst time complexity is O(n*logn).
+
+==============================================================================================================================================================
+
+
+
+
+
+
+(b)
+
+The definition of the Node ommit
+ 
+our Algorithm is:
+
+===========================================================================================
+public Node<Integer> smallest_Node_BiggerEqual_than_number(Node<Integer> root , int l){
+    if( root.value == l ){
+        return root;
+    }
+    else{
+        if(root.value < l){
+            if(max_of_tree(root).value < l){    //this method is almost the same as Exercise 3 , in AVL tree , the worst case is almost O(logn)
+                return max_of_tree(root);  
+            }
+            else{
+                return smallest_Node_BiggerEqual_than_number(root.next , l);
+            }
+        }
+        
+        else{
+            if(min_of_tree(root).value >= l){
+                return min_of_tree(root);       //this method is almost the same as Exercise 3 , in AVL tree , the worst case is almost O(logn)
+            }
+            else{
+                return smallest_Node_BiggerEqual_than_number(root.prev , l);
+            }
+        }
+    }
+}
+
+
+
+public int sum_of_the_value_in_interval(int r){
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+===========================================================================================
