@@ -1,0 +1,95 @@
+Exercise3:
+
+
+
+(a)
+
+//the Definition of Node is:
+
+================================================================
+
+class Node<Integer>{
+    Integer element;
+    Node<Integer> prev;
+    Node<Integer> next;
+}
+
+===================================================================
+
+//our Algorithm is as follows:
+
+===================================================================
+
+public int Sum_of_min_and_max_of_the_tree(Node<Integer> root){
+
+    assert root != null : "the tree must exist";
+    
+    Node<Integer> minimal = root;
+    
+    Node<Integer> maximal = root;
+    
+    while(minimal.prev != null){
+        minimal = minimal.prev;    
+    }
+    
+    while(maximal.next != null){
+        maximal = maximal.next;
+    }
+    
+    return (minimal.element + maximal.element);
+} 
+
+
+===================================================================
+
+
+(b)
+
+The worst case:
+
+in my code , if we define the binary seach tree Wn is like this(each node only have left child , no right child):
+
+                            a1(root)
+                           /
+                          a2
+                         /
+                        a3
+                       /
+                      ...
+                     /
+                    an
+
+            then , in the first whlie loop , we need to do n times , that is time complexity is bounded by n (O(n)).
+            the second while loop almost O(n) , so the worst case is O(n)
+            
+            
+            
+
+            
+            
+            
+            
+(c)
+
+The best case:
+
+if We define the binary search tree Bn is like this(the root has only left child , no right child):
+
+                            a1(root)
+                           /
+                          a2
+                            \
+                             a3
+                              \
+                               a4
+                                \
+                                ...
+                                  \
+                                   an
+                                   
+                                   
+then for two while loops in the code , each while loop just need to take only one step to find the minmal and the maximal, that is a2 and a1.
+
+so in the best case , the time complexity is O(1).
+
+
