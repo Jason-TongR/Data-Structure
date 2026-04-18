@@ -1,0 +1,77 @@
+Exercise1 :
+
+
+proof:
+
+    denote the original Array is A_old. denote A is the Array A_old after the loop. 
+    consider the following Loop Invariant:
+        Inv := { (for all j such that i < j < n , we have A[j] = A_old[(j+1) mod n]) 
+                && (x = A_old[(i+1) mod n])
+                && (for all j such that 0 <= j <= i , we have A[j] = A_old[j]) }
+                
+    denote  (1) = (for all j such that i < j < n , we have A[j] = A_old[(j+1) mod n])
+            (2) = (x = A_old[(i+1) mod n])
+            (3) = (for all j such that 0 <= j <= i , we have A[j] = A_old[j])
+    
+        that is Inv := { (1) && (2) && (3) }
+                
+                
+    now we will use Loop invariant thm:
+    
+    
+    1.Initialization : we will check that Inv holds at the start of the loop. we have A = A_old
+    
+        for (1): since i = n - 1 . then doesn't exist j such that n-1 = i < j < n.
+                Since false can implies everything, so (1) holds.
+        
+        for (2): x = A[0] = A_old[0] = A_old[n  (mod n)] = A_old[(i+1) mod n]
+                so (2) holds.
+                
+        for (3):since A = A_old .so for all j such that 0 <= j <= i , A[j] = A_old[j] holds.
+        
+        Thus , Inv holds at the start of the loop.
+    
+
+    2.Preservation: assuming {Inv && Cond} holds , we will check that Inv still holds after the loop
+                    here Cond is i >= 0 . 
+                    
+        for (1) : after the loop , i' = i - 1.
+                so we need to check that for all j such that i-1 = i' < j < n , we have A[j] = A_old[(j+1) mod n].
+                since the Inv holds , so we just need to check the case j = i.
+                by the code:
+                A[j] = A[i] = x = A_old[i+1] = A_old[(j+1) mod n]
+                so (1) is still holds after the loop.
+                
+        for (2) : after the loop , we have x' and i' = i -1 and A
+                so we need to check that x' = A[(i'+1) mod n]
+                by the code:
+                x' = A_old[i] = A[i] by Inv(3)
+                so A_old[i] = A[i] = A[(i'+1) mod n]
+                so (2) is still holds after the loop.
+        
+        for (3) : after the loop , we have x' and i' = i -1 and A
+                so we need to check that for all j such that 0 <= j <= i' = i-1 , we have A[j] = A_old[j]
+                it is trivial true, because i-1 < i, by Inv(3) we can immediately get it.
+                
+                
+        Thus Inv still holds after the loop.
+        
+    
+     3.Termination: The loop will terminate because i = n-1 is a nature number and i - 1 ....-1 it will < 0 at some time
+                    So the Cond will be false at some time, that is the loop will terminate.
+                    
+                    
+    
+        Therefore, by the Loop invariant thm , {Inv && !Cond} will holds at the end of the loop.
+        that is  { (for all j such that i < j < n , we have A[j] = A_old[(j+1) mod n]) 
+                && (x = A_old[(i+1) mod n])
+                && (for all j such that 0 <= j <= i , we have A[j] = A_old[j])
+                && i < 0}
+                
+                
+                so 
+                    >>> |A| = |A_old| is trivial true , because in the code we doesn't change the size of the Array.
+                    >>> in (1) we can take j = 0 => A[0] = A_old[1] = A_old[0+1]
+                                      take j = n -1  => A[n-1] = A_old[n mod n] = A_old[0]
+                                      
+                so isLeftRotation holds. Q.E.D

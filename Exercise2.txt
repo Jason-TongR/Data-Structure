@@ -1,0 +1,92 @@
+Exercise2:
+
+We have the definition of 'O' notation:
+    We say that g belong to O(f) 
+    iff
+    exist N0 in nature number , and c >0 ,
+    such that for all n >= n0 , we have g(n) <= c*f(n).
+
+
+
+(a)
+proof:
+    our hypothesis are f , g are belong to O(h)
+
+    by definition, that is :
+    
+    1. exist N1 in nature number , and c1 > 0,
+    such that for all n >= N1 , we have f(n) <= c1*h(n)
+
+    2. exist N2 in the nature number , and c2 > 0,
+    such that for all n >= N2 , we have g(n) <= c2*h(n)
+
+
+now , we claim two Lemmas:
+
+Lemma 1 : if f , g are belong to O(h) , then f + g is also belong to O(h)
+
+    PROOF OF LEMMA 1:
+        take N := max{N1 , N2} , c := 2*max{c1 , c2}
+        then for all n >= N , we have :
+            f(n) + g(n) <= c1*h(n) + c2*h(n) <= 2*max{c1 , c2}*h(n) = c*h(n)
+
+            Thus , f + g is also belong to O(h) , LEMMA 1 DONE!
+
+
+Lemma 2 : if f is belong to O(h) , then f^k is belong to O(h^k) , for some k in the nuature number.
+    PROOF OF LEMMA 2:
+        take N := N1 , c := (c1)^k
+        then for all n >= N1 , we have:
+            f(n) <= c*h(h) implies f^k(n) <= (c^k)*h^k(n) that is f^k(n) <= c*h^k(n)
+        
+        Thus f^k is belong to O(h^k) , LEMMA 2 DONE!
+
+
+Now , back to the Exercise(a) , by Lemma 1 and Lemma 2 we immediately get that :
+    (f(n) +g(n))^k is belong to O(h^k(n)) . Q.E.D
+
+
+
+
+
+
+(b)
+proof:
+    we have the hypothesis : f is belong to O(n) , that is :
+        exist N1 in nature number , c > 0 , 
+        such that for all n >= N1 , we have f(n) <= c*n . 
+
+now we denote g(n) := SUM(i from 1 to n)f^2(i) , our aim is to prove that g is belong to O(n^3).
+
+now , since f is monotonically non-decreasing function , 
+so  g(1) <= g(n) , g(2) <= g(n) ,..., g(n-1) <= g(n)
+so g(n) <= n*f^2(n) .
+
+now it is enough to proof that n*f^2(n) is belong to O(n^3)
+
+take N := N1 , c := c^2
+
+by hypothesis , we have for all n >= N = N1 , f(n) <= c*n implies f^2(n) <= (c^2)*(n^2) impies n*f^2(n) <= n*(c^2)*(n^2) = c^2(n^3) = c*(n^3)
+
+Therefore , we proved that n*f^2(n) is belong to O(n^3). implies that g(n) is belong to O(n^3) Q.E.D
+
+
+
+
+
+(c)
+proof:
+    Hypothesis: f is belong to O(g^2) and f is also belong to O(h^2)
+    that is :
+        1. exist N1 in nature number , c1 > 0,
+        such that for all n >= N1 , we have f(n) <= c1*g^2(n)
+
+        2.exist N2 in nature number , c2 > 0,
+        such that for all n >= N2 , we have f(n) <= c2*h^2(n)
+
+
+Now take N:= max{N1 , N2} , c := square root of (c1*c2)
+
+by hypothesis for all n >= N , we have f(n)*f(n) <= (c1*g^2(n))*(c2*h^2(n))
+now take the square root both side , we get that f(n) <= (square root of (c1*c2))*(g(n)*h((n)))
+That is f is belong to O(g*h) Q.E.D
