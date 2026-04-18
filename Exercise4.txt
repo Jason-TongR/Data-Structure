@@ -95,8 +95,11 @@ The definition of the Node ommit
 our Algorithm is:
 
 ===========================================================================================
-public Node<Integer> smallest_Node_BiggerEqual_than_number(Node<Integer> root , int l){
-    if( root.value == l ){
+private Node<Integer> smallest_Node_BiggerEqual_than_number(Node<Integer> root , int l){
+    
+    assert root != null;
+    
+    if( (root.value <= l) && (root.next.value == null || root.next.value > l)  ){
         return root;
     }
     else{
@@ -121,9 +124,39 @@ public Node<Integer> smallest_Node_BiggerEqual_than_number(Node<Integer> root , 
 }
 
 
-
-public int sum_of_the_value_in_interval(int r){
+private Node<Integer> find_smallest_bigger_one(Node<Integer> node){
+    if(node.next != null){
+        Node y = node.next;
+        while(y.prev != null){
+            y = y.prev;
+        }
+        return y;
+    }
     
+    else{
+        Node y = node.parent
+        while(y != null && node == y.right){
+            node = y;
+            y = y.parent;
+        }
+        return y;
+    }
+}
+
+
+
+public int sum_of_the_value_in_interval(int l , int r , Node<Integer> A){
+    
+    Node<Integer> node_smaller = smallest_Node_BiggerEqual_than_number(A , l);
+    
+    int sum = node_smaller.value;
+    
+    while(node_smaller != null && node_smaller.value <= r){
+        sum += node_smaller.value;
+        node_smaller = find_smallest_bigger_one(node_smaller);
+    }
+    
+    return sum;
 }
 
 
