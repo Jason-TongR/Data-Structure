@@ -104,13 +104,27 @@ class Node {
     }
 
     static Node rotateLeft(Node p) {
-        // TODO: COMPLETE
-        return null;
+        Node y = p.right;
+        Node T = y.left;
+        // Rotate
+        y.left = p;
+        p.right = T;
+        // Update height
+        p.height = 1 + Math.max(fastHeight(p.left) , fastHeight(p.right));
+        y.height = 1 + Math.max(fastHeight(y.left) , fastHeight(y.right));
+        return y;
     }
 
     static Node rotateRight(Node p) {
-        // TODO: COMPLETE
-        return null;
+        Node y = p.left;
+        Node T = y.right;
+        // Rotate
+        y.right = p;
+        p.left = T;
+        // Update height
+        p.height = 1 + Math.max(fastHeight(p.left) , fastHeight(p.right));
+        y.height = 1 + Math.max(fastHeight(y.left) , fastHeight(y.right));
+        return y;
     }
 
     static Node doubleRotateLeft(Node p) {
