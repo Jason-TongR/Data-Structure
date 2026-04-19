@@ -151,12 +151,23 @@ class Set {
     }
 
     boolean contains(int x) {
-        // TODO: COMPLETE
+        Node cur = root;
+        while (cur != null){
+            if (x == cur.key){
+                return true;
+            }else if ( x < cur.key){
+                cur = cur.left;
+            }else{
+                cur = cur.right;
+            }
+        }
         return false;
+        // Worst-case time complexity is O(logn)
     }
 
     void add(int x) {
-        // TODO: COMPLETE
+        
+        // Worst-case time complexity is O(logn)
     }
 
     void remove(int x) {
