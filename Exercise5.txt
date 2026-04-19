@@ -1,0 +1,64 @@
+Exercise 5:
+
+(a)
+    by the definition of ternary trees , we can get that a perfect banlance ternary tree is like this:
+    
+                                                n1
+                                              / | \
+                                             /  |  \
+                                            n2  n3  n4
+                                           /|\ /|\  /|\
+                                           ... ...  ...
+                                           
+                                           
+    so we get the table :          h    |   number of nodes
+                                   -----------------------------------------------------------        
+                                   1    |       1              =  3^0
+                                   2    |     1 + 3            =  3^0 + 3^1
+                                   3    |    1 + 3 + 9         =  3^0 + 3^1 + 3^2
+                                   4    |  1 + 3 + 9 + 27      =  3^0 + 3^1 + 3^2 + 3^3
+                                   .    |
+                                   .    |
+                                   .    |
+                                   n    |  3^0 + 3^1 + 3^2 + 3^3 + ... + 3^(n-1)
+
+                                   
+
+    Thus , we claim that NB(h) =  3^0 + 3^1 + 3^2 + 3^3 + ... + 3^(h-1) =========  (3^h - 1)/2
+                                                                        (by math) 
+                                                                        
+                                                                        
+    
+    Now , we will prove it by induction:
+    
+    1.Base case: when h = 1 . NB(1) = 1 = (3^1 - 1)/2
+    
+    2.Inductive step : suppose that this formula is holds for k , will prove the k+1 case.
+                       so Inductive Hypothesis is NB(k) = (3^k - 1)/2
+                       now , by the definition of perfect balance trees : NB(k+1) = NB(k) + 3*( 3^(k-1) ) = (3^k - 1)/2 + 3*( 3^(k-1) ) 
+                                                                                                          = (3^k - 1)/2 + 3^k
+                                                                                                          = (3^(k+1) - 1)/2
+                                                                                                          
+                                                                        so NB(k+1) = (3^(k+1) - 1)/2
+                                                                        so it is also holds for k+1 case.
+                                                                        
+    Therefore , by inductive principle , NB(h) = (3^h - 1)/2    Q.E.D
+    
+    
+    
+    
+    
+    
+
+(b)
+proof:
+
+    note that n <= NB(h) for all h in the nature number.
+    
+    so n <= (3^h - 1)/2 <= (0.5)*3^h
+    
+    now (0.5)*3^h is belong to O(3^h) , beacase we can take N := 1 , c := 1 , 
+    then it is trivial true that for all h >= N , (0.5)*3^h <= c*3^h 
+    
+    so n is belong to O(3^h).    Q.E.D
+
