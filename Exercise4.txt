@@ -71,6 +71,7 @@ public ArrayList<Integer> output_sorted_array_of_two_trees(Node<Integer> root1 ,
     return Collection.sort(result_array);
 }
 
+COMMENT:
 
 
 in my code , we have private method 1 :  "compute_size_of_tree" , in the lecture ,we have seen that the time complexity of it is O(n) in the worst case.
@@ -94,7 +95,7 @@ The definition of the Node ommit
  
 our Algorithm is:
 
-===========================================================================================
+============================================================================================================================================================
 private Node<Integer> smallest_Node_BiggerEqual_than_number(Node<Integer> root , int l){
     
     assert root != null;
@@ -160,13 +161,85 @@ public int sum_of_the_value_in_interval(int l , int r , Node<Integer> A){
 }
 
 
+COMMENT:
+
+
+in our code , we have 3 methods . method 1 : "smallest_Node_BiggerEqual_than_number" : we are using recursive to do , 
+                                             and the method "max_of_tree(root).value" and "min_of_tree(root)" take logn in AVL trees , so the time complexity is O(logn)
+                                  
+                                  method 2 : "find_smallest_bigger_one" this is O(1)
+                                  
+                                  method 3 : "sum_of_the_value_in_interval" , by hypothesis , all node in this tree without duplicates , so in worst case it take O(r-l)
+                                  
+                                  
+                                  Therefore , our Algorithm has the stated worse case time complexity O(logn + (r-l)).
+
+
+============================================================================================================================================================================
 
 
 
 
 
 
+(c)
+
+
+our data structure is:
+
+=============================================================================================================================================================================
+
+public class find_PreImage{
+    
+    private ArrayList<Integer> sorted_array = new ArrayList<>();
+    
+    private int n;
+    
+    public find_PreImage (function f , int n){
+        
+        assert n >= 1 : "n must in the nature number";
+        
+        this.n = n;
+        
+        for( int i = 1 ; i < n+1 ; i++ ){              //at the end of the for loop , we will get a sorted array , because function f is strictly increasing. and this take almost O(n).
+            sorted_array.add(f(i));  
+        }   
+    }
 
 
 
-===========================================================================================
+
+
+    public int output_pre_image(int j){
+        
+         //we will do binary search
+         
+         int low = 0 , high = n-1;
+         
+         while(low <= high){
+             int mid = low + (high - low)/2;
+             if( sorted_array.get(mid).eauals(j) ){
+                 return mid + 1;
+             }
+             else{
+                 if(sorted_array.get(mid) < j){
+                     low = mid + 1;
+                 }
+                 else{
+                     high = mid - 1;
+                 }
+             }
+         }    
+         
+         return -1;         //actually we will not reach here, because array is sorted and use binary search will find the value
+    }
+
+
+}
+
+
+COMMENT: in our code , we are doing initailzation in the construcor , and doing the main algotithm in the method"output_pre_image" , the constructor take O(n) and the operation is binary search , take O(logn).
+=============================================================================================================================================================================
+
+
+
