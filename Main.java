@@ -128,13 +128,13 @@ class Node {
     }
 
     static Node doubleRotateLeft(Node p) {
-        // TODO: COMPLETE
-        return null;
+        p.right = rotateRight(p.right);
+        return rotateLeft(p);
     }
 
     static Node doubleRotateRight(Node p) {
-        // TODO: COMPLETE
-        return null;
+        p.left = rotateLeft(p.left);
+        return rotateRight(p);
     }
 
 }
