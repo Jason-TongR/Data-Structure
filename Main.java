@@ -1,6 +1,7 @@
 
 /* GTIIT - Data Structures 1 - Spring 2026 - Assignment 1 */
 
+import java.util.Stack;
 public class Main {
 
     public static void main(String[] args) {
@@ -139,6 +140,7 @@ class Node {
 
 }
 
+
 class Set {
     private Node root;
 
@@ -166,12 +168,109 @@ class Set {
     }
 
     void add(int x) {
+        // Empty tree
+        if ( root == null ){
+            root = new Node( x );    
+            return;
+        }
         
+        // Find the position to insert
+        Node cur = root;
+        Stack<Node> path = new Stack<>();
+        Node parent = null;
+        while ( cur != null ){
+            parent = cur;
+            path.push(parent);
+            if ( x == cur.key ){
+                return;
+            }else if ( x < cur.key ){
+                cur = cur.left;
+            }else{
+                cur = cur.right;
+            }
+        }
+        
+        // Insert!
+        Node newNode = new Node(x);
+        if ( x < parent.key ){
+            parent.left = newNode;
+        }else{
+            parent.right = newNode;
+        }
+        
+        // Refresh height + Balancing
+        while(!path.isEmpty()){
+            Node node = path.pop();
+            node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));
+            int num = Node.balanceFactor(node);
+            
+            //Type:LL
+            if ( num > 1 && x < node.left.key ){
+                Node newRoot = Node.rotateRight(node);
+                if (path.isEmpty()){
+                    root = newRoot;
+                }else{
+                    Node parentNode = path.peek();
+                    if (parentNode.left == node){
+                        parentNode.left = newRoot;
+                    }else{
+                        parentNode.right = newRoot;
+                    }
+                }
+            }
+            
+            //Type:RR
+            else if ( num < -1 && x > node.right.key ){
+                Node newRoot = Node.rotateLeft(node);
+                if (path.isEmpty()){
+                    root = newRoot;
+                }else{
+                    Node parentNode = path.peek();
+                    if (parentNode.left == node){
+                        parentNode.left = newRoot;
+                    }else{
+                        parentNode.right = newRoot;
+                    }                    
+                }
+            }
+            
+            //Type:LR
+            else if ( num > 1 && x > node.left.key ){
+                Node newRoot = Node.doubleRotateRight(node);
+                if (path.isEmpty()){
+                    root = newRoot;
+                }else{
+                    Node parentNode = path.peek();
+                    if (parentNode.left == node){
+                        parentNode.left = newRoot;
+                    }else{
+                        parentNode.right = newRoot;
+                    }                    
+                }
+            }
+            
+            //Type:RL
+            else if ( num < -1 && x < node.right.key ){
+                Node newRoot = Node.rotateLeft(node);
+                if (path.isEmpty()){
+                    root = newRoot;
+                }else{
+                    Node parentNode = path.peek();
+                    if (parentNode.left == node){
+                        parentNode.left = newRoot;
+                    }else{
+                        parentNode.right = newRoot;
+                    }                    
+                }
+            }
+            // If already balanced,then do nothing.
+        }
         // Worst-case time complexity is O(logn)
     }
 
     void remove(int x) {
-        // TODO: COMPLETE
+        
+        // Worst-case time complexity is O(logn)
     }
 }
 
