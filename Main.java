@@ -207,71 +207,113 @@ class Set {
             //Type:LL
             if ( num > 1 && x < node.left.key ){
                 Node newRoot = Node.rotateRight(node);
-                if (path.isEmpty()){
-                    root = newRoot;
-                }else{
-                    Node parentNode = path.peek();
-                    if (parentNode.left == node){
-                        parentNode.left = newRoot;
-                    }else{
-                        parentNode.right = newRoot;
-                    }
-                }
+                attachToParent (path, newRoot, node);
             }
             
             //Type:RR
             else if ( num < -1 && x > node.right.key ){
                 Node newRoot = Node.rotateLeft(node);
-                if (path.isEmpty()){
-                    root = newRoot;
-                }else{
-                    Node parentNode = path.peek();
-                    if (parentNode.left == node){
-                        parentNode.left = newRoot;
-                    }else{
-                        parentNode.right = newRoot;
-                    }                    
-                }
+                attachToParent (path, newRoot, node);
             }
             
             //Type:LR
             else if ( num > 1 && x > node.left.key ){
                 Node newRoot = Node.doubleRotateRight(node);
-                if (path.isEmpty()){
-                    root = newRoot;
-                }else{
-                    Node parentNode = path.peek();
-                    if (parentNode.left == node){
-                        parentNode.left = newRoot;
-                    }else{
-                        parentNode.right = newRoot;
-                    }                    
-                }
+                attachToParent (path, newRoot, node);
             }
             
             //Type:RL
             else if ( num < -1 && x < node.right.key ){
                 Node newRoot = Node.rotateLeft(node);
-                if (path.isEmpty()){
-                    root = newRoot;
-                }else{
-                    Node parentNode = path.peek();
-                    if (parentNode.left == node){
-                        parentNode.left = newRoot;
-                    }else{
-                        parentNode.right = newRoot;
-                    }                    
-                }
+                attachToParent (path, newRoot, node);
             }
             // If already balanced,then do nothing.
         }
         // Worst-case time complexity is O(logn)
     }
-
-    void remove(int x) {
-        
-        // Worst-case time complexity is O(logn)
+    //auxiliary private method
+    private void attachToParent (Stack<Node> path, Node newSubtree, Node oldNode){
+        if (path.isEmpty()){
+            root = newSubtree;
+        }else{
+            Node parentNode = path.peek();
+            if (parentNode.left == oldNode){
+                parentNode.left = newSubtree;
+            }else{
+                parentNode.right = newSubtree;
+            }                    
+        }        
     }
+    
+    void remove(int x) {
+        // Empty tree
+        if (root == null){
+            return;
+        }
+        
+        // Find the position to remove
+        Node cur = root;
+        Stack<Node> path = new Stack<>();
+        Node parent = null;
+        while ( cur != null && cur.key != x ){
+            parent = cur;
+            path.push (parent);
+            if (x < cur.key){
+                cur = cur.left;
+            }else{
+                cur = cur.right;
+            }
+        }
+        // No such x
+        if (cur == null){
+            return;
+        }
+        
+        // Deleting!
+        Node deleteNode = cur;
+        Node deleteParent = parent;
+        
+        // Case 1: No leftChild
+        if (cur.left == null){
+            replaceNode (parent, cur, cur.right, path);
+        }
+        // Case 2: No rightChild
+        else if (cur.right == null){
+            replaceNode (parent, cur, cur.left, path);
+        }
+        // Case 3: 2 children
+        else{
+            Node successorParent = cur;
+            Node successor = cur.right;
+            path.push (successorParent);
+            while (successor.left != null){
+                successorParent = successor;
+                path.push (successorParent);
+                successor = successor.left;
+            }
+            cur.key = successor.key;
+            
+            replaceNode (successorParent, successor, successor.right, path);
+            deleteNode = successor;
+            deleteParent = successorParent;
+        }
+        
+        // Refresh height + Balancing
+        while(!path.isEmpty()){
+            Node node = path.pop();
+            node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));
+            int num = Node.balanceFactor(node);
+            
+            
+        }
+    }
+    //auxiliary private method
+    private void replaceNode (Node parent, Node oldNode, Node child, Stack<Node> path){
+        if (parent == null){
+            root = child;
+        }
+    }
+    // Worst-case time complexity is O(logn)
 }
 
 class SetTest {
