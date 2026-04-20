@@ -224,7 +224,7 @@ class Set {
             
             //Type:RL
             else if ( num < -1 && x < node.right.key ){
-                Node newRoot = Node.rotateLeft(node);
+                Node newRoot = Node.doubleRotateLeft(node);
                 attachToParent (path, newRoot, node);
             }
             // If already balanced,then do nothing.
@@ -304,13 +304,40 @@ class Set {
             node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));
             int num = Node.balanceFactor(node);
             
+            //Type:LL
+            if ( num > 1 && Node.balanceFactor (node.left) >= 0 ){
+                Node newRoot = Node.rotateRight(node);
+                attachToParent (path, newRoot, node);
+            }
             
+            //Type:RR
+            else if ( num < -1 && Node.balanceFactor (node.right) <= 0 ){
+                Node newRoot = Node.rotateLeft(node);
+                attachToParent (path, newRoot, node);
+            }
+            
+            //Type:LR
+            else if ( num > 1 && Node.balanceFactor (node.left) < 0 ){
+                Node newRoot = Node.doubleRotateRight(node);
+                attachToParent (path, newRoot, node);
+            }
+            
+            //Type:RL
+            else if ( num < -1 && Node.balanceFactor (node.right) > 0 ){
+                Node newRoot = Node.doubleRotateLeft(node);
+                attachToParent (path, newRoot, node);
+            }
+            // If already balanced,then do nothing.
         }
     }
     //auxiliary private method
     private void replaceNode (Node parent, Node oldNode, Node child, Stack<Node> path){
         if (parent == null){
             root = child;
+        }else if (parent.left == oldNode){
+            parent.left = child;
+        }else{
+            parent.right = child;
         }
     }
     // Worst-case time complexity is O(logn)
