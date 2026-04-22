@@ -29,7 +29,10 @@ class Node {
         }else{
             return 1 + Math.max(slowHeight(p.left) , slowHeight(p.right));
         }
-        // Worst-case time complexity is O(n)
+        /*  Worst-case time complexity is O(n)
+
+            Reason : beacause this method will go through all the nodes in the tree.
+         */
     }
 
     static int fastHeight(Node p) {
@@ -38,7 +41,10 @@ class Node {
         }else{
         return p.height;
         }
-        // Worst-case time complexity is O(1)    
+        /*  Worst-case time complexity is O(1)
+            
+            Reason : acutally it just read the field of the class "node" , so it takes O(1) time. 
+        */     
     }
 
     static int balanceFactor(Node p) {
@@ -47,21 +53,29 @@ class Node {
         }else{
             return fastHeight(p.left) - fastHeight(p.right);
         }
-        // Worst-case time complexity is O(1)  
+        /*  Worst-case time complexity is O(1) 
+
+            Reason : because the the method "fastHeight" take O(1) time , and all the operation in the code also take O(1) time
+                     so the Worst-case time complexity is O(1)
+         */ 
     }
 
     static boolean checkInvariant(Node p) {
-        // Empty tree satisfies the invariant
+        // Empty tree satisfies the invariant , for empty tree we have nothing to do
         if (p == null){
             return true;
         }
+
+        /*  as the following , it is the case that the tree is not empty ,
+            we will return false once we find some node isn't satisfies the representation invariant. 
+        */  
         
         // The key of the root is right(compare with leftC and rightC)
         if (p.left != null && p.left.key >= p.key){
-            return false;
+            return false;                               // this is contration to the key of root must greater than the key of the left child
         }
         if (p.right != null && p.right.key <= p.key){
-            return false;
+            return false;                               // this is contration to the key of root must less than the key of the right child
         }
         
         // The correctness for the height
@@ -72,7 +86,7 @@ class Node {
         
         // BalanceFactor must be 1 0 0r -1
         int num = balanceFactor(p);
-        if (num < -1 || num > -1){
+        if (num < -1 || num > 1){
             return false;
         }
         
