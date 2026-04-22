@@ -100,7 +100,7 @@ class Node {
         p.height = 3;
         
         // Construct the left-subtree
-        p.left = new Node(2);
+        p.left =  new Node(2);
         p.left.height = 1;
         
         // Construct the right-subtree
@@ -119,19 +119,23 @@ class Node {
     }
 
     static Node rotateLeft(Node p) {
+       //create the subtree
         Node y = p.right;
-        Node T = y.left;
+        Node T = y.left;        // the right child of y doesn't change , so we don;t create it
         // Rotate
         y.left = p;
         p.right = T;
-        // Update height
-        p.height = 1 + Math.max(fastHeight(p.left) , fastHeight(p.right));
+        // Update the height in the class "node"
+        p.height = 1 + Math.max(fastHeight(p.left) , fastHeight(p.right));      //we need to upgate node p  first to make sure we have correct height to upgate the height of y
         y.height = 1 + Math.max(fastHeight(y.left) , fastHeight(y.right));
         return y;
     }
 
     static Node rotateRight(Node p) {
-        Node y = p.left;
+        
+        //rotateRight is the symmetric of rotateLeft
+
+        Node y = p.left;            
         Node T = y.right;
         // Rotate
         y.right = p;
