@@ -182,7 +182,13 @@ class Set {
             }
         }
         return false;
-        // Worst-case time complexity is O(logn)
+        /*  Worst-case time complexity is O(logn)
+            
+            Reason : the number of the step of this method is the height of this tree
+                     and we know that Height is belong to O(logn)
+                     Therefore , the time complexity of this method is O(logn).
+        */
+
     }
 
     void add(int x) {
