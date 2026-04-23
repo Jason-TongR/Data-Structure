@@ -195,29 +195,40 @@ class Set {
     }
 
     void add(int x) {
-        // Empty tree
+        
+        // First , we need to find the correct position to add
+        
+        // Empty tree , just add this node to be the root
         if ( root == null ){
             root = new Node( x );    
             return;
         }
         
-        // Find the position to insert
+        // Then the follwing is the case that the tree isn't empty
         Node cur = root;
         Stack<Node> path = new Stack<>();
         Node parent = null;
-        while ( cur != null ){
-            parent = cur;
-            path.push(parent);
+        while ( cur != null ){          // intersection is always add the node to the lowest bounded of the tree , so the condition is that the current node must go to null at some
+
+            parent = cur;               // let the parent node be the current node , and we will consider three cases in the follow
+            
+            path.push(parent);          // add the parent node into the top of the stack , because the "correct position" will be assign to the 'parent'
+
             if ( x == cur.key ){
-                return;
-            }else if ( x < cur.key ){
-                cur = cur.left;
-            }else{
-                cur = cur.right;
+                return;                 // in this case , the number that we want to add exits in the tree , so just return
             }
-        }
+            else{ 
+                if ( x < cur.key ){
+                    cur = cur.left;     // let the current node be the left node of the current node
+                }
+                else{
+                    cur = cur.right;    // let the current node be the right node of the current node
+                }
+            }
+        }                                
         
-        // Insert!
+        // Second , insert!
+
         Node newNode = new Node(x);
         if ( x < parent.key ){
             parent.left = newNode;
@@ -225,7 +236,7 @@ class Set {
             parent.right = newNode;
         }
         
-        // Refresh height + Balancing
+        // Thrid , Refresh height + Balancing
         while(!path.isEmpty()){
             Node node = path.pop();
             node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));
