@@ -174,19 +174,22 @@ class Set {
         Node cur = root;
         while (cur != null){
             if (x == cur.key){
-                return true;
+                return true;            // found! retunr true
             }else if ( x < cur.key){
                 cur = cur.left;
             }else{
                 cur = cur.right;
             }
         }
-        return false;
+        return false;                   // this x doesn't in the tree . return false
+
         /*  Worst-case time complexity is O(logn)
             
             Reason : the number of the step of this method is the height of this tree
                      and we know that Height is belong to O(logn)
                      Therefore , the time complexity of this method is O(logn).
+
+            Precondition : we need the tree to be a binary search tree.
         */
 
     }
