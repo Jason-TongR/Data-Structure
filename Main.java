@@ -227,8 +227,8 @@ class Set {
             }
         }                                
         
-        // Second , insert!
 
+        // Second , insert!
         Node newNode = new Node(x);
         if ( x < parent.key ){
             parent.left = newNode;
@@ -236,32 +236,34 @@ class Set {
             parent.right = newNode;
         }
         
-        // Thrid , Refresh height + Balancing
+        
+        // Third , Refresh height + Balancing
         while(!path.isEmpty()){
-            Node node = path.pop();
-            node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));
-            int num = Node.balanceFactor(node);
+            Node node = path.pop();         // we need to operate the node that in the stack "path" one by one.
+
+            node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));   // upgate the height of the node which in the path
+            int node_balance_factor = Node.balanceFactor(node);
             
             //Type:LL
-            if ( num > 1 && x < node.left.key ){
+            if ( node_balance_factor > 1 && x < node.left.key ){
                 Node newRoot = Node.rotateRight(node);
                 attachToParent (path, newRoot, node);
             }
             
             //Type:RR
-            else if ( num < -1 && x > node.right.key ){
+            else if ( node_balance_factor < -1 && x > node.right.key ){
                 Node newRoot = Node.rotateLeft(node);
                 attachToParent (path, newRoot, node);
             }
             
             //Type:LR
-            else if ( num > 1 && x > node.left.key ){
+            else if ( node_balance_factor > 1 && x > node.left.key ){
                 Node newRoot = Node.doubleRotateRight(node);
                 attachToParent (path, newRoot, node);
             }
             
             //Type:RL
-            else if ( num < -1 && x < node.right.key ){
+            else if ( node_balance_factor < -1 && x < node.right.key ){
                 Node newRoot = Node.doubleRotateLeft(node);
                 attachToParent (path, newRoot, node);
             }
@@ -269,7 +271,9 @@ class Set {
         }
         // Worst-case time complexity is O(logn)
     }
-    //auxiliary private method
+    
+    
+    // this is a auxiliary private method
     private void attachToParent (Stack<Node> path, Node newSubtree, Node oldNode){
         if (path.isEmpty()){
             root = newSubtree;
