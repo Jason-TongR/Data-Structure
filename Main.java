@@ -269,7 +269,16 @@ class Set {
             }
             // If already balanced,then do nothing.
         }
-        // Worst-case time complexity is O(logn)
+        /*  Worst-case time complexity is O(logn)
+            Reason:
+                1. The First step is to find the correct position to add, in the worst case this step take O(logn) , because h is in O(logn)
+                2. The Second step is insert , this step take O(1) time in the worst case
+                3. The Third step is upgate height and balancing , this step take O(logn) in the worst case , because h is in O(logn) 
+                4. The auiliary private method also take O(1)
+                
+                Therefore , the worst case time complexity is O(logn)
+        */  
+            
     }
     
     
