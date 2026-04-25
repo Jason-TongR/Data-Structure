@@ -273,7 +273,11 @@ class Set {
     }
     
     
-    // this is a auxiliary private method
+    /*  this is a auxiliary private method
+
+        The function of this private auxiliary method :
+        this method is used to connect the new subtree to the parent node after we do the rotation in the method "add"
+    */
     private void attachToParent (Stack<Node> path, Node newSubtree, Node oldNode){
         if (path.isEmpty()){
             root = newSubtree;
