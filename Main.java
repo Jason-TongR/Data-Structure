@@ -198,13 +198,13 @@ class Set {
         
         // First , we need to find the correct position to add
         
-        // Empty tree , just add this node to be the root
+        // CASE 1 : Empty tree . just add this node to be the root
         if ( root == null ){
             root = new Node( x );    
             return;
         }
         
-        // Then the follwing is the case that the tree isn't empty
+        // CASE 2 : the tree isn't empty
         Node cur = root;
         Stack<Node> path = new Stack<>();
         Node parent = null;
@@ -301,30 +301,43 @@ class Set {
     }
     
     void remove(int x) {
-        // Empty tree
+        
+        // First , we need to find the position to remove
+        
+        // CASE 1 : Empty tree . nothing to do . return that is.
         if (root == null){
             return;
         }
         
-        // Find the position to remove
-        Node cur = root;
-        Stack<Node> path = new Stack<>();
-        Node parent = null;
-        while ( cur != null && cur.key != x ){
+        //  CASE 2 : non-empty tree
+        Node cur = root;                            // we need current node
+        Stack<Node> path = new Stack<>();           // we need to use Stack to do this Algorithm
+        Node parent = null;                         // we need the parent node of the current node
+        while ( cur != null && cur.key != x ){      // the condition that the while loop stop is "the current node is null (that is we have reached to the leaf)" or "the value of the curren node is x (that is : we have found the value x)"    
             parent = cur;
-            path.push (parent);
+            path.push (parent);                     // this step is in the while loop , so the Stack "path" can record the path that we find the value x
             if (x < cur.key){
                 cur = cur.left;
             }else{
                 cur = cur.right;
             }
         }
-        // No such x
-        if (cur == null){
-            return;
+
+
+
+        /*  Second , we need to delelet the node
+            No such x
+            Reason:
+            this is the while loop stop case that "the current node is null (that is we have reached to the leaf)" , 
+            then it is trival that the value of the parent is also not x (if not , the current node should stop at the parent position , then it is the contraditon)
+        */
+        if (cur == null){                   
+            return;             // since no such x , so we remove nothing , return that is.
         }
         
-        // Deleting!
+
+
+        /*  There exists such x , the current node cur is the aim node that we want to delete*/
         Node deleteNode = cur;
         Node deleteParent = parent;
         
@@ -353,7 +366,8 @@ class Set {
             deleteParent = successorParent;
         }
         
-        // Refresh height + Balancing
+
+        /*  Third , Refresh height + Balancing  */
         while(!path.isEmpty()){
             Node node = path.pop();
             node.height = 1 + Math.max(Node.fastHeight(node.left) , Node.fastHeight(node.right));
@@ -385,17 +399,35 @@ class Set {
             // If already balanced,then do nothing.
         }
     }
-    //auxiliary private method
+
+
+    /*  auxiliary private method
+        
+        The function of this auxiliary method :
+            to replace the oldNode to the child.
+
+    */
     private void replaceNode (Node parent, Node oldNode, Node child, Stack<Node> path){
-        if (parent == null){
+        if (parent == null){                // in this case is that the tree is only one node (that is the root) , so we just need to let the root be the child            
             root = child;
-        }else if (parent.left == oldNode){
-            parent.left = child;
-        }else{
-            parent.right = child;
+        }
+        else{
+
+            if(parent.left == oldNode)
+                parent.left = child;
+            else
+                parent.right = child;
+
         }
     }
-    // Worst-case time complexity is O(logn)
+    /*  Worst-case time complexity is O(logn)
+        Reason:
+            1. In the first step , we need to find the position to remove , this step take O(logn) time int the worst case
+            2. In the second step , it also take O(logn) time in the worse case , because the Case 3 take O(logn) in the worst case
+            3. In the third step , this step take O(logn) in the worst case , because h is in O(logn)
+            4. In the auxiliary step , it takes O(1)
+            Therefore , the method remove take O(logn) in the worst case.
+    */
 }
 
 class SetTest {
