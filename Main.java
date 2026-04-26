@@ -435,7 +435,11 @@ class SetTest {
     static void runAllTests() {
         test0();
         test1();
-        // TODO: add more tests
+        test2();
+        test3();
+        test4();
+        test5();
+        test6();
     }
 
     static void test0() {
@@ -447,10 +451,206 @@ class SetTest {
         assert s.checkInvariant() : "Invariant check fails";
     }
 
+    
+    /*
+        test 1 is Exercise 11 (a)
+    */
     static void test1() {
-        // TODO: COMPLETE
+        //Arrange
+        Set s = new Set();
+
+        // Act , Assert
+        for( int i = 1 ; i < 101 ; i++){
+            s.add(i);                                                                           // add the element i
+
+            for( int j = 1 ; j < i + 1 ; j++ ){                                                 // this for loop is to check that all the inserted elment are in the set    
+                assert (s.contains(j)) : " element " + j + "should be in the set";
+            }
+            
+            for( int j = i + 1  ; j < 101 ; j++ ){                                              // this for loop is to check that the other elements are not in the set
+                assert (!s.contains(j)) : " elment " + j + "should not be in the set";     
+            }
+            
+            assert (s.checkInvariant()) : "this tree should be Invariant";                      // this is to check the invariant preserved
+        }
     }
 
-    // TODO: add more tests
+    
+    /*
+        test 2 is Exercise 11 (b)
+    */
+    static void test2(){
+        //Arrange
+        Set s = new Set();
+
+        // Act , Assert
+        for( int i = 100 ; i > 0  ; i--){
+            s.add(i);                                                                           // add the element i
+
+            for( int j = 100 ; j > i - 1 ; j-- ){                                               // this for loop is to check that all the inserted elment are in the set    
+                assert (s.contains(j)) : " element " + j + "should be in the set";
+            }
+            
+            for( int j = i - 1  ; j > 0 ; j-- ){                                                // this for loop is to check that the other elements are not in the set
+                assert (!s.contains(j)) : " elment " + j + "should not be in the set";     
+            }
+            
+            assert (s.checkInvariant()) : "this tree should be Invariant";                      // this is to check the invariant preserved
+        }
+    }
+
+
+
+    /*
+        test 3 is Exercise 11 (c)
+    */
+    static void test3(){
+        /*  Arrange
+            our sequence is {2 , 1 , 5 , 4 , 3 , 6}
+            our test_tree is like : 
+
+                             2
+                           /   \
+                          1     5
+                               / \
+                              4   6
+                             /
+                            3                         
+        */
+        Node test_tree = new Node(2);       // this is the root
+        test_tree.height = 4;
+
+        test_tree.left = new Node(1);
+        test_tree.left.height = 1;
+
+        test_tree.right = new Node(5);
+        test_tree.right.height = 3;
+
+        test_tree.right.right = new Node(6);
+        test_tree.right.right.height = 1;
+
+        test_tree.right.left = new Node(4);
+        test_tree.right.left.height = 2;
+
+        test_tree.right.left.left = new Node(3);
+        test_tree.right.left.left.height = 1;
+
+        //Act
+        Node after_rotation_tree = Node.doubleRotateLeft(test_tree);
+        
+        //Assert
+        
+        assert (Node.checkInvariant(after_rotation_tree)) : "the after_rotation_tree should be Invariant";
+        
+    }
+
+
+    /*
+        test 4 is Exercise 11 (d)
+    */
+    static void test4(){
+        /*
+            Arrange
+            our sequence is {6 , 2 , 1 , 4 , 5 , 7}
+            our test_tree is like :
+                                6
+                               / \
+                              2   7
+                             / \ 
+                            1   4
+                                 \
+                                  5
+        */
+        Node test_tree = new Node(6);
+        test_tree.height = 4;
+
+        test_tree.right = new Node(7);
+        test_tree.right.height = 1;
+
+        test_tree.left = new Node(2);
+        test_tree.left.height = 3;
+
+        test_tree.left.left = new Node(1);
+        test_tree.left.left.height = 1;
+
+        test_tree.left.right = new Node(4);
+        test_tree.left.right.height = 2;
+        
+        test_tree.left.right.right = new Node(5);
+        test_tree.left.right.right.height = 1;
+
+        //Act
+        Node after_rotation_tree = Node.doubleRotateRight(test_tree);
+
+        //Assert
+        
+        assert (Node.checkInvariant(after_rotation_tree)) : "the after_rotation tree should be Invariant";
+
+    }
+
+
+    /*
+        test 5 is Exercise 11 (e)
+    */
+    static void test5(){
+        //Arrange
+        Set s = new Set();
+        for( int i = 1 ; i < 101 ; i++ ){       // this for loop is to construct the tree
+            s.add(i);
+        }
+
+
+        //Act , Assert
+        for( int i = 1 ; i < 101 ; i++ ){       
+            s.remove(i);                        // remove i
+
+            /*
+                These two for loop is to check that the correspond element wheather is in the set
+            */
+            for( int j = 1 ; j < i + 1 ; j++ ){ 
+                assert (!s.contains(j)) : j + " should not be in the set after deleting";
+            }
+
+            for( int j = i + 1 ; j < 101 ; j++ ){
+                assert (s.contains(j)) : j + " should be in the set when it is not be deleted";
+            }
+
+            assert (s.checkInvariant()) : "s should be invariant";              // to check the invariant
+
+        }
+    }
+
+
+    /*
+        test 7 is Exercise 11 (f)
+    */
+    static void test6(){
+         //Arrange
+        Set s = new Set();
+        for( int i = 1 ; i < 101 ; i++ ){       // this for loop is to construct the tree
+            s.add(i);
+        }
+
+
+        //Act , Assert
+        for( int i = 100 ; i > 0 ; i-- ){       
+            s.remove(i);                        // remove i
+
+            /*
+                These two for loop is to check that the correspond element wheather is in the set
+            */
+            for( int j = 100 ; j > i - 1 ; j-- ){ 
+                assert (!s.contains(j)) : j + " should not be in the set after deleting";
+            }
+
+            for( int j = i - 1 ; j > 0 ; j-- ){
+                assert (s.contains(j)) : j + " should be in the set when it is not be deleted";
+            }
+
+            assert (s.checkInvariant()) : "s should be invariant";              // to check the invariant
+
+        }
+        
+    }
 }
 
